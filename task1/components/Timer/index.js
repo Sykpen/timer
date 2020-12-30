@@ -8,7 +8,6 @@ const Timer = ({ date, dateFormatDate }) => {
 		// let endDate = dayjs(date, "MM-DD-YYYY");
 		let endDateDateFormat = dayjs(dateFormatDate);
 		const diff = endDateDateFormat.diff(nowDate);
-		console.log(dayjs(diff));
 		return diff;
 	};
 

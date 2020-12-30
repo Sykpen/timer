@@ -2,6 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Timer from "../components/Timer";
 import dayjs from "dayjs";
+import TimetText from "../components/TimerText";
 
 export default function Home() {
 	const now = dayjs();
@@ -14,6 +15,7 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
+				<TimetText text={"Я таймер"} />
 				<Timer date={"01-01-2021"} dateFormatDate={futureDateInDateFormat} />
 			</main>
 		</div>
