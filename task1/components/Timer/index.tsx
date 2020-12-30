@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import styles from "./style.module.css";
+import React, { useEffect, useState, FC } from "react";
 import dayjs from "dayjs";
+import TimerText from "./TimerText";
 
-const Timer = ({ date, dateFormatDate }) => {
+interface Props {
+	date: string;
+}
+
+const Timer: FC<Props> = ({ date }) => {
 	const calculateTimeLeft = () => {
 		let nowDate = dayjs();
-		// let endDate = dayjs(date, "MM-DD-YYYY");
-		let endDateDateFormat = dayjs(dateFormatDate);
-		const diff = endDateDateFormat.diff(nowDate);
+		let endDate = dayjs(date);
+		const diff = endDate.diff(nowDate);
 		return diff;
 	};
 
@@ -17,7 +20,10 @@ const Timer = ({ date, dateFormatDate }) => {
 		const timer = setTimeout(() => {
 			setTimeLeft(calculateTimeLeft());
 		}, 1000);
-	});
+		if (timeLeft <= 0) {
+			return () => clearInterval(timer);
+		}
+	}, [timeLeft]);
 
 	const formatStringToDate = () => {
 		let finalDate = dayjs(timeLeft).format("DD:HH:mm:ss");
@@ -37,8 +43,9 @@ const Timer = ({ date, dateFormatDate }) => {
 
 	return (
 		<>
-			<div className={styles.timer_main}>{formatStringToDate()}</div>
-			<div className={styles.timer_main}>{formatDateToStrings()}</div>
+			<TimerText classForText={timeLeft <= 0 ? "failure" : "normal"} />
+			<div>{formatStringToDate()}</div>
+			<div>{formatDateToStrings()}</div>
 		</>
 	);
 };
