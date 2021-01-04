@@ -8,10 +8,14 @@ export default function Home() {
 			<Head>
 				<title>Create Next App</title>
 				<link rel="icon" href="/favicon.ico" />
+				<link
+					rel="stylesheet"
+					href="https://cdnjs.cloudflare.com/ajax/libs/react-datepicker/2.14.1/react-datepicker.min.css"
+				/>
 			</Head>
 
 			<main className={styles.main}>
-				<Timer date={"12-31-2020"} />
+				<Timer countdownFormat={"short"} isUTC={"London"} />
 			</main>
 		</div>
 	);
