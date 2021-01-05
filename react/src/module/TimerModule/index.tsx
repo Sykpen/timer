@@ -5,19 +5,19 @@ import TimerText from "./TimerText";
 import { useInterval } from "../hooks/useInterval";
 
 interface Props {
-	countdownFormat: "short" | "full";
-	start: boolean;
-	isUTC: boolean;
 	date: Date;
-	timerTextClass: string;
+	start?: boolean;
+	countdownFormat?: "short" | "full";
+	isUTC?: boolean;
+	timerTextClass?: string;
 }
 
 const Timer: FC<Props> = ({
-	countdownFormat,
-	start,
-	isUTC,
+	countdownFormat = "full",
+	start = true,
+	isUTC = false,
 	date,
-	timerTextClass,
+	timerTextClass = "normal",
 }): JSX.Element => {
 	const calculateTimeLeft = () => {
 		if (start) {
@@ -35,7 +35,7 @@ const Timer: FC<Props> = ({
 
 	const formatDateToStrings = () => {
 		if (timeLeft < 0) {
-			return "00:00:00:00";
+			return "00:00:00:00:00";
 		}
 		const dayInMouth = dayjs(timeLeft).daysInMonth();
 		let finalDate = dayjs(timeLeft - 10798888 - 86400000).format(

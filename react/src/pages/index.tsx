@@ -58,14 +58,16 @@ export default function Home() {
 						/>
 					</div>
 					<div className={"button"}>
-						<Button
-							variant="contained"
-							color="primary"
-							onClick={() => setstart(true)}
-							disabled={calendarePickedDate ? false : true}
-						>
-							Set up timer
-						</Button>
+						{start ? null : (
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={() => setstart(true)}
+								disabled={calendarePickedDate ? false : true}
+							>
+								Set up timer
+							</Button>
+						)}
 					</div>
 				</div>
 				<Timer
