@@ -1,14 +1,30 @@
 import React, { useEffect, useState, FC } from "react";
 import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 import TimerText from "./TimerText";
-import { TextField } from "@material-ui/core";
+import { TextField, FormControlLabel, Button } from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
 
 interface Props {
 	countdownFormat: "short" | "full";
-	isUTC: string;
 }
 
-const Timer: FC<Props> = ({ countdownFormat, isUTC }): JSX.Element => {
+const Timer: FC<Props> = ({ countdownFormat }): JSX.Element => {
+	const [isUTC, setisUTC] = useState(false);
+	const [start, setstart] = useState(false);
+
+	const handleUtcChange = (event) => {
+		setisUTC(event.target.checked);
+	};
+
+	const startTimer = () => {
+		if (isUTC) {
+			dayjs.extend(utc);
+			setTimeLeft(dayjs(timeLeft).utc().valueOf());
+		}
+		setstart(true);
+	};
+
 	const [calendarePickedDate, setCalendarePickedDate] = useState(0);
 
 	const calculateTimeLeft = () => {
@@ -22,13 +38,15 @@ const Timer: FC<Props> = ({ countdownFormat, isUTC }): JSX.Element => {
 	};
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			setTimeLeft(calculateTimeLeft());
-		}, 1000);
-		if (timeLeft <= 0) {
-			return () => clearInterval(timer);
+		if (start) {
+			const timer = setTimeout(() => {
+				setTimeLeft(calculateTimeLeft());
+			}, 1000);
+			if (timeLeft <= 0) {
+				return () => clearInterval(timer);
+			}
 		}
-	}, [timeLeft]);
+	});
 
 	const formatStringToDate = () => {
 		if (timeLeft < 0) {
@@ -70,7 +88,23 @@ const Timer: FC<Props> = ({ countdownFormat, isUTC }): JSX.Element => {
 					onChange={(event) => calendarDateChange(event.target.value)}
 				/>
 			</form>
+			<div>
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={isUTC}
+							onChange={handleUtcChange}
+							name="checkedA"
+						/>
+					}
+					label="Use UTC time"
+				/>
+			</div>
+			<Button variant="contained" color="primary" onClick={startTimer}>
+				Set up timer
+			</Button>
 			<TimerText classForText={timeLeft <= 0 ? "failure" : "normal"} />
+
 			<div>
 				{countdownFormat === "full"
 					? formatDateToStrings()

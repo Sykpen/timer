@@ -15,7 +15,7 @@ export default function Home() {
 			</Head>
 
 			<main className={styles.main}>
-				<Timer countdownFormat={"short"} isUTC={"London"} />
+				<Timer countdownFormat={"full"} />
 			</main>
 		</div>
 	);
