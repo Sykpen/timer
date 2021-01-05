@@ -1,6 +1,6 @@
 # Timer module. Read this before using!!!
 
-task1 folder - for the usage inside react applications
+react folder - for the usage inside react applications
 
 ## React:
 
