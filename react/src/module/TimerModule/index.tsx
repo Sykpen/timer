@@ -33,29 +33,40 @@ const Timer: FC<Props> = ({
 
 	const [timeLeft, setTimeLeft] = useState(-1);
 
-	const formatStringToDate = () => {
-		if (timeLeft < 0) {
-			return "00:00:00:00";
-		}
-		let finalDate = dayjs(timeLeft - 86400000).format("DD:HH:mm:ss");
-		const [day, hour, minute, second] = finalDate.split(":");
-		let finalString = `${
-			Number(day) == 31 ? "00" : day
-		}:${hour}:${minute}:${second}`;
-		return finalString;
-	};
-
 	const formatDateToStrings = () => {
 		if (timeLeft < 0) {
 			return "00:00:00:00";
 		}
-		let finalDate = dayjs(timeLeft - 10798888 - 86400000).format("DD:HH:mm:ss");
-		const [day, hour, minute, second] = finalDate.split(":");
-		let finalString = `${Number(day) == 31 ? "00" : day} ${
-			Number(day) == 1 ? "day" : "days"
-		} ${hour} ${Number(hour) == 1 ? "hour" : "hours"} ${minute} ${
-			Number(minute) == 1 ? "minute" : "minutes"
-		} ${second} ${Number(second) == 1 ? "second" : "seconds"}`;
+		const dayInMouth = dayjs(timeLeft).daysInMonth();
+		let finalDate = dayjs(timeLeft - 10798888 - 86400000).format(
+			"MM:DD:HH:mm:ss"
+		);
+		const [month, day, hour, minute, second] = finalDate.split(":");
+
+		if (countdownFormat === "full") {
+			console.log(month);
+			let monthString = `${
+				Number(month) > 1 && Number(month) < 12 ? Number(month) - 1 : "00"
+			} ${Number(month) - 1 == 1 ? "month" : "months"}`;
+			let finalString = `${monthString} ${
+				Number(day) == dayInMouth ? "00" : day
+			} ${Number(day) == 1 ? "day" : "days"} ${hour} ${
+				Number(hour) == 1 ? "hour" : "hours"
+			} ${minute} ${Number(minute) == 1 ? "minute" : "minutes"} ${second} ${
+				Number(second) == 1 ? "second" : "seconds"
+			}`;
+			return finalString;
+		}
+		let monthDate = `${
+			Number(month) > 1 && Number(month) < 12 ? Number(month) - 1 : "0"
+		}`;
+		if (Number(month) - 1 < 10 || Number(month) == 12) {
+			monthDate = `0${monthDate}`;
+		}
+		let finalString = `${monthDate}:${
+			Number(day) == dayInMouth ? "00" : day
+		}:${hour}:${minute}:${second}`;
+
 		return finalString;
 	};
 
@@ -65,11 +76,7 @@ const Timer: FC<Props> = ({
 		<>
 			<TimerText classForText={timeLeft <= 0 ? "failure" : timerTextClass} />
 
-			<div>
-				{countdownFormat === "full"
-					? formatDateToStrings()
-					: formatStringToDate()}
-			</div>
+			<div>{formatDateToStrings()}</div>
 		</>
 	);
 };

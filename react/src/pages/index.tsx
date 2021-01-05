@@ -57,16 +57,19 @@ export default function Home() {
 							label="Use UTC time"
 						/>
 					</div>
-					<Button
-						variant="contained"
-						color="primary"
-						onClick={() => setstart(true)}
-					>
-						Set up timer
-					</Button>
+					<div className={"button"}>
+						<Button
+							variant="contained"
+							color="primary"
+							onClick={() => setstart(true)}
+							disabled={calendarePickedDate ? false : true}
+						>
+							Set up timer
+						</Button>
+					</div>
 				</div>
 				<Timer
-					countdownFormat={"full"}
+					countdownFormat={"short"}
 					start={start}
 					isUTC={isUTC}
 					date={calendarePickedDate}
