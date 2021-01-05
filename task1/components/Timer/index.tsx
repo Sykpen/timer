@@ -64,7 +64,7 @@ const Timer: FC<Props> = ({ countdownFormat }): JSX.Element => {
 		if (timeLeft < 0) {
 			return "00:00:00:00";
 		}
-		let finalDate = dayjs(timeLeft - 10687777 - 86400000).format("DD:HH:mm:ss");
+		let finalDate = dayjs(timeLeft - 10798888 - 86400000).format("DD:HH:mm:ss");
 		const [day, hour, minute, second] = finalDate.split(":");
 		let finalString = `${Number(day) == 31 ? "00" : day} ${
 			Number(day) == 1 ? "day" : "days"
