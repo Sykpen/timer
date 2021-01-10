@@ -22,3 +22,7 @@ a {
 .failure {
 	color: red;
 }
+
+.button {
+	text-align: center;
+}
